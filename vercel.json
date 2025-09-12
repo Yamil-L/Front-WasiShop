@@ -6,12 +6,6 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/WasiShop/index.html"
-    }
-  ],
 
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
