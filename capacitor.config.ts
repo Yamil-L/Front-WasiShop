@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.org_food.app',
-  appName: 'org-food-v2',
+  appName: 'WasiShop',
   webDir: 'dist/WasiShop/browser',
   server: {
     androidScheme: 'https',

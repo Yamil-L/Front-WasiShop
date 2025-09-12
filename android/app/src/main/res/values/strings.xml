@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">org-food-v2</string>
-    <string name="title_activity_main">org-food-v2</string>
-    <string name="package_name">com.org_food.app</string>
-    <string name="custom_url_scheme">com.org_food.app</string>
+    <string name="app_name">WasiShop</string>
+    <string name="title_activity_main">WasiShop</string>
+    <string name="package_name">com.WasiShop.app</string>
+    <string name="custom_url_scheme">com.WasiShop.app</string>
 </resources>

@@ -1,12 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "dist/WasiShop/**",
-      "use": "@vercel/static"
-    }
-  ],
-
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
