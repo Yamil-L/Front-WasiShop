@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/WasiShop/index.html",
+      "src": "dist/WasiShop/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/WasiShop/index.html"
+      "dest": "dist/WasiShop/index.html"
     }
   ]
 }
