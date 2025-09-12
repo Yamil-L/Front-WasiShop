@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "OrgFoodV2": {
+    "WasiShop": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,10 +76,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "OrgFoodV2:build:production"
+              "buildTarget": "WasiShop:build:production"
             },
             "development": {
-              "buildTarget": "OrgFoodV2:build:development"
+              "buildTarget": "WasiShop:build:development"
             }
           },
           "defaultConfiguration": "development"
