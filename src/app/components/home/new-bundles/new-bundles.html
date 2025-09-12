@@ -1,0 +1,14 @@
+@if (newBundles) {
+<section class="my-6">
+  <h1 class="text-3xl text-center mb-6">
+    <strong>Nuevos Productos</strong>
+  </h1>
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-4">
+      @for (bundle of newBundles; track $index) {
+      <app-new-bundle-card [bundle]="bundle" />
+      }
+    </div>
+  </div>
+</section>
+}

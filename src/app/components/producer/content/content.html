@@ -1,0 +1,75 @@
+<!-- <div
+  class="hero min-h-screen"
+  [style.backgroundImage]="'url(' + producerImage + ')'"
+>
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-neutral-content text-center">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-5xl font-bold">{{producer.name}}</h1>
+      <div class="flex flex-col gap-2">
+        @for (social of socials; track social){
+        <a
+          class="btn btn-primary"
+          [href]="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ getSocialName(social) }}
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<section class="my-6">
+  <h1 class="text-3xl text-center mb-6">
+    <strong>Our Products</strong>
+  </h1>
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-4">
+      @for (product of products; track product) {
+      <app-featured-product-card [product]="product" />
+      }
+    </div>
+  </div>
+</section> -->
+
+
+
+
+<div
+  class="hero min-h-screen"
+  [style.backgroundImage]="'url(' + producerImage + ')'"
+>
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-neutral-content text-center">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-5xl font-bold">{{ producer.name }}</h1>
+      <div class="flex flex-col gap-2">
+        @for (social of socials; track social) {
+        <a
+          class="btn btn-primary"
+          [href]="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ getSocialName(social) }}
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="my-6">
+  <h1 class="text-3xl text-center mb-6">
+    <strong>Our Products</strong>
+  </h1>
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-4">
+      @for (product of products; track product) {
+      <app-featured-product-card [product]="product" />
+      }
+    </div>
+  </div>
+</section>

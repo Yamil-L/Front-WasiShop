@@ -1,0 +1,29 @@
+<h1 class="text-3xl">
+  <strong>Comments</strong>
+</h1>
+
+@for (comment of comments; track $index) {
+<div class="chat chat-start">
+  <div class="chat-image avatar">
+    <div class="w-10 rounded-full">
+      <img
+        [alt]="`${comment.user.name} ${comment.user.lastname}`"
+        [src]="comment.user.profilePicture"
+      />
+    </div>
+  </div>
+  <div class="chat-bubble">
+    {{comment.content}}
+    <span class="block text-xs text-info mt-1"
+      >{{ comment.date | date: 'MM/dd/yyyy' }}</span
+    >
+  </div>
+</div>
+}
+<textarea
+  class="textarea w-full resize-none overflow-auto mt-4"
+  placeholder="Add a comment..."
+></textarea>
+<div class="flex justify-end mt-2">
+  <button class="btn btn-soft btn-primary">Comment</button>
+</div>

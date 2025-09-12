@@ -1,0 +1,132 @@
+@if (me) {
+<div class="flex items-center justify-center min-h-screen">
+  <div class="flex flex-col md:flex-row gap-8 items-start w-full max-w-6xl">
+    <div class="card bg-base-100 w-full md:w-2/3 shadow-sm">
+      <div
+        class="card-body grid grid-cols-1 [@media(min-width:426px)]:grid-cols-2 gap-x-8 gap-y-4"
+      >
+        <div
+          class="col-span-1 [@media(min-width:425px)]:col-span-2 flex items-center gap-4 mb-4"
+        >
+          <div class="avatar">
+            <div class="w-24 rounded">
+              <img [src]="profilePictureUrl" [alt]="me.name" />
+            </div>
+          </div>
+          <div>
+            <h2 class="card-title text-info">Name</h2>
+            <p>{{ me.name }}</p>
+            <h2 class="card-title text-info">Lastname</h2>
+            <p>{{ me.lastname }}</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="card-title text-info">Email</h2>
+          <p>{{ me.email }}</p>
+        </div>
+        <div>
+          <h2 class="card-title text-info">Gender</h2>
+          <p>{{ me.gender }}</p>
+        </div>
+        <div>
+          <h2 class="card-title text-info">Birthdate</h2>
+          <p>{{ me.birthdate | date: 'MM/dd/yyyy' }}</p>
+        </div>
+        <div>
+          <h2 class="card-title text-info">Phone</h2>
+          <p>{{ me.phone_number }}</p>
+        </div>
+      </div>
+
+      <div class="px-6 pb-6">
+        <button class="btn btn-primary w-full" (click)="openModal()">
+          Edit
+        </button>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 w-full md:w-1/3 shadow-sm self-center">
+      <div class="card-body">
+        <h2 class="card-title text-accent">Newsletter subscription</h2>
+        <div class="flex items-center justify-between mt-4">
+          <p class="text-sm">Send me news and updates via email</p>
+          <input
+            type="checkbox"
+            [(ngModel)]="me.newsletter_subscribed"
+            (change)="onNewsletterToggle()"
+            class="checkbox checkbox-accent"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog #editModal class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold mb-4">Edit Profile</h3>
+
+    <form
+      class="flex flex-col gap-4"
+      (ngSubmit)="submitEdit()"
+      #editForm="ngForm"
+    >
+      <input
+        type="text"
+        class="input input-bordered w-full"
+        name="name"
+        [(ngModel)]="me.name"
+        placeholder="Name"
+        required
+      />
+
+      <input
+        type="text"
+        class="input input-bordered w-full"
+        name="lastname"
+        [(ngModel)]="me.lastname"
+        placeholder="Lastname"
+        required
+      />
+
+      <input
+        type="tel"
+        class="input input-bordered w-full"
+        name="phone_number"
+        [(ngModel)]="me.phone_number"
+        placeholder="Phone Number"
+      />
+
+      <select
+        class="select select-bordered w-full"
+        name="gender"
+        [(ngModel)]="me.gender"
+      >
+        <option [ngValue]="'Male'">Male</option>
+        <option [ngValue]="'Female'">Female</option>
+        <option [ngValue]="'Other'">Other</option>
+      </select>
+
+      <input
+        type="date"
+        class="input input-bordered w-full"
+        name="birthdate"
+        [(ngModel)]="me.birthdate"
+      />
+
+      <div class="modal-action">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button
+          type="button"
+          class="btn"
+          (click)="editModalRef.nativeElement.close()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+}

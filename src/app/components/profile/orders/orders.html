@@ -1,0 +1,23 @@
+<div class="flex items-center justify-center min-h-screen">
+  <ul class="list bg-base-100 rounded-box shadow-md p-4 w-full max-w-3xl">
+    @for (entry of groupOrdersByAddress().entries(); track entry[0]) {
+    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
+      Orders from {{ entry[0] }}
+    </li>
+
+    @for (order of entry[1]; track order.id) {
+    <li
+      class="list-row flex flex-col md:flex-row md:items-start gap-2 md:gap-4"
+    >
+      <div class="flex-1">
+        <div>{{ order.delivery | date: 'MM/dd/yyyy' }}</div>
+        @for (row of order.order_rows; track row.id) {
+        <div class="text-xs uppercase font-semibold opacity-60">
+          {{ row.product.name }} × {{ row.quantity }}
+        </div>
+        }
+      </div>
+    </li>
+    } }
+  </ul>
+</div>

@@ -1,0 +1,10 @@
+<div class="rating rating-half">
+  @for (value of parseRatingToArray; track $index; let e = $even) {
+  <div
+    class="mask mask-star-2"
+    [class.mask-half-1]="e"
+    [class.mask-half-2]="!e"
+    [attr.aria-current]="$index === parseRatingToArray.lastIndexOf(1) ? 'true' : null"
+  ></div>
+  }
+</div>

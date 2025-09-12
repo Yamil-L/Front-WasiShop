@@ -1,0 +1,85 @@
+<!-- <div
+  class="card card-sm shadow-sm cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 w-[300px]"
+  (click)="goToProduct()"
+>
+  <figure class="w-full h-48 overflow-hidden">
+    <img
+      [src]="imageUrl"
+      [alt]="product().name"
+      class="w-full h-full object-cover"
+    />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{`${product().name} (${product().unit})`}}</h2>
+    <div class="flex justify-between items-start mt-2">
+      <div class="flex items-center gap-2">
+        <app-rating [rate]="4" />
+      </div>
+
+      <div class="text-right space-y-1">
+        @if (product().discount_percent) {
+        <div class="flex items-baseline gap-2">
+          <h3 class="text-sm primary text-error line-through">
+            {{ product().price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+          </h3>
+          <h3 class="text-xl font-semibold text-primary">
+            {{ discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+          </h3>
+        </div>
+        } @else {
+        <h3 class="text-xl font-semibold text-primary">
+          {{ product().price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+        </h3>
+        }
+      </div>
+    </div>
+
+    <div class="card-actions justify-end">
+      <button class="btn btn-info" (click)="goToProduct()">See more</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div
+  class="card card-sm shadow-sm cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 w-[300px]"
+  (click)="goToProduct()"
+>
+  <figure class="w-full h-48 overflow-hidden">
+    <img
+      [src]="product().image_path"
+  [alt]="product().name"
+  class="w-full h-full object-cover"
+    />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{`${product().name} (${product().unit})`}}</h2>
+    <div class="flex justify-between items-start mt-2">
+      <div class="flex items-center gap-2">
+        <app-rating [rate]="4" />
+      </div>
+
+      <div class="text-right space-y-1">
+        @if (product().discount_percent) {
+        <div class="flex items-baseline gap-2">
+          <h3 class="text-sm primary text-error line-through">
+            {{ product().price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+          </h3>
+          <h3 class="text-xl font-semibold text-primary">
+            {{ discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+          </h3>
+        </div>
+        } @else {
+        <h3 class="text-xl font-semibold text-primary">
+          {{ product().price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+        </h3>
+        }
+      </div>
+    </div>
+
+    <div class="card-actions justify-end">
+      <button class="btn btn-info" (click)="goToProduct()">See more</button>
+    </div>
+  </div>
+</div>

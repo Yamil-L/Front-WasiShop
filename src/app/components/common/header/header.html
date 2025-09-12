@@ -1,0 +1,76 @@
+<div class="drawer">
+  <input id="header-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col">
+    <!-- Navbar -->
+    <header class="navbar shadow-sm">
+      <div class="flex-none lg:hidden">
+        <label for="header-drawer" class="btn btn-square btn-ghost">
+          <i-lucide [img]="menuIcon" />
+        </label>
+      </div>
+      <div class="flex-1 menu menu-horizontal px-1">
+        <a (click)="goHome()" class="btn btn-ghost text-xl hidden md:block">
+          WasiShop
+        </a>
+
+        <label class="input validator">
+          <input
+            type="text"
+            class="grow"
+            placeholder="Search something..."
+            [formControl]="searchForm"
+            minlength="3"
+          />
+          <a
+            [ngClass]="{ 'cursor-pointer': searchForm.valid }"
+            (click)="onSearch()"
+          >
+            <i-lucide
+              [img]="searchIcon"
+              [ngClass]="{ 'opacity-100': searchForm.valid, 'opacity-50': !searchForm.valid }"
+              class="h-[1em] transition-opacity"
+            ></i-lucide>
+          </a>
+        </label>
+      </div>
+      <div class="hidden flex-none lg:block">
+        <ul class="menu menu-horizontal px-1 hidden md:flex">
+          @for (item of menuItems; track item) {
+          <li>
+            <a
+              class="flex items-center gap-2"
+              [routerLink]="['/' + item.route]"
+            >
+              <i-lucide [img]="item.icon" />
+              <span>{{ item.name }}</span>
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+    </header>
+  </div>
+  <div class="drawer-side">
+    <!-- Drawer -->
+    <label
+      for="header-drawer"
+      aria-label="close sidebar"
+      class="drawer-overlay"
+    ></label>
+    <ul class="menu bg-base-200 min-h-full w-80 p-4">
+      <li>
+        <a class="btn btn-ghost text-xl md:hidden" (click)="goHome()"
+          >WasiShop</a
+        >
+      </li>
+      @for (item of menuItems; track item) {
+      <li>
+        <a class="flex items-center gap-2" [routerLink]="['/' + item.route]">
+          <i-lucide [img]="item.icon" />
+          <span>{{ item.name }}</span>
+        </a>
+      </li>
+      }
+    </ul>
+  </div>
+</div>

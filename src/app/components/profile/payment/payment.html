@@ -1,0 +1,48 @@
+<section class="p-6">
+  <h2 class="text-2xl font-bold mb-4">Your Payment Methods</h2>
+
+  <ul class="list bg-base-100 rounded-box shadow-md mb-6 flex flex-col gap-4">
+    @for (method of paymentMethods; track method.id) {
+    <li class="list-row flex justify-between items-center p-4 border-b">
+      <div>
+        <div>
+          <strong>{{ method.card_brand }}</strong> ending in {{
+          method.card_last4 }}
+        </div>
+        <div class="text-sm text-gray-500">
+          Expires {{ method.exp_month }}/{{ method.exp_year }}
+        </div>
+      </div>
+      <button
+        class="btn btn-error btn-sm"
+        (click)="deletePaymentMethod(method.id)"
+      >
+        Delete
+      </button>
+    </li>
+    }
+  </ul>
+
+  <button
+    class="btn btn-primary"
+    [disabled]="paymentMethods.length >= 3"
+    (click)="openAddModal()"
+  >
+    Add Payment Method
+  </button>
+
+  <dialog #addModal class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold mb-4">Add Payment Method</h3>
+      <p>This will generate a random test method for demo purposes.</p>
+      <div class="modal-action">
+        <button class="btn btn-primary" (click)="addPaymentMethod()">
+          Add
+        </button>
+        <button class="btn" (click)="addModalRef.nativeElement.close()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </dialog>
+</section>

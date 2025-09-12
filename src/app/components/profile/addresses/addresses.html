@@ -1,0 +1,113 @@
+@if (addresses) {
+<div class="flex items-center justify-center min-h-screen">
+  <ul class="list bg-base-100 rounded-box shadow-md p-4 w-full">
+    @for (address of addresses; track address) {
+    <li
+      class="list-row flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4"
+    >
+      <div>{{ address | address }}</div>
+      <div class="flex flex-col md:flex-row md:ml-auto gap-2 w-full md:w-auto">
+        <button
+          class="btn btn-accent w-full md:w-fit"
+          (click)="openEditModal(address)"
+        >
+          Edit
+        </button>
+        <button
+          class="btn btn-error w-full md:w-fit"
+          (click)="openDeleteModal(address)"
+        >
+          Delete
+        </button>
+      </div>
+    </li>
+    } @if (addresses.length < 3) {<button
+      class="btn btn-primary w-full mt-4"
+      (click)="openAddModal()"
+    >
+      Add an address</button
+    >}
+  </ul>
+</div>
+
+<dialog #editModal class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold mb-4">Edit Address</h3>
+    <form class="flex flex-col gap-3" (ngSubmit)="saveEdit()">
+      <input
+        class="input input-bordered"
+        placeholder="Country"
+        [(ngModel)]="selectedAddress!.country"
+        name="country"
+        required
+      />
+      <input
+        class="input input-bordered"
+        placeholder="State"
+        [(ngModel)]="selectedAddress!.state"
+        name="state"
+        required
+      />
+      <input
+        class="input input-bordered"
+        placeholder="City"
+        [(ngModel)]="selectedAddress!.city"
+        name="city"
+        required
+      />
+      <input
+        class="input input-bordered"
+        placeholder="Postal Code"
+        [(ngModel)]="selectedAddress!.postal_code"
+        name="postal_code"
+      />
+      <input
+        class="input input-bordered"
+        placeholder="Line 1"
+        [(ngModel)]="selectedAddress!.line_1"
+        name="line_1"
+        required
+      />
+      <input
+        class="input input-bordered"
+        placeholder="Line 2"
+        [(ngModel)]="selectedAddress!.line_2"
+        name="line_2"
+      />
+      <input
+        type="number"
+        class="input input-bordered"
+        placeholder="Number"
+        [(ngModel)]="selectedAddress!.number"
+        name="number"
+        required
+      />
+
+      <div class="modal-action">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button
+          type="button"
+          class="btn"
+          (click)="editModalRef.nativeElement.close()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- Delete Modal -->
+<dialog #deleteModal class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Delete Address</h3>
+    <p class="py-4">Are you sure you want to delete this address?</p>
+    <div class="modal-action">
+      <button class="btn btn-error" (click)="confirmDelete()">Delete</button>
+      <button class="btn" (click)="deleteModalRef.nativeElement.close()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</dialog>
+}

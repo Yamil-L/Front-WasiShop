@@ -1,0 +1,115 @@
+<app-header />
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-center">Your Cart</h1>
+
+  @if (cartItems.length === 0) {
+  <p class="text-center text-lg">Your cart is empty.</p>
+  } @else {
+  <div class="grid gap-6">
+    @for (item of cartItems; track item.id) {
+    <div
+      class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 border p-4 rounded-lg shadow-md"
+    >
+      <img
+        [src]="item.imageUrl"
+        alt="{{ item.product?.name }}"
+        class="w-full sm:w-24 h-24 object-cover rounded-md"
+      />
+
+      <div class="flex-1">
+        <h2 class="text-xl font-bold">{{ item.product?.name }}</h2>
+        <p class="text-sm text-gray-500">{{ item.product?.description }}</p>
+        <p class="text-sm text-gray-500">Quantity: {{ item.quantity }}</p>
+        <p class="text-sm text-gray-500">
+          Price: {{ (item.product!.price - item.product!.price *
+          (item.product!.discount_percent || 0) / 100) |
+          currency:'USD':'symbol':'1.2-2':'en-US' }} x {{ item.quantity }}
+        </p>
+      </div>
+
+      <div class="w-full sm:w-auto">
+        <button
+          class="btn btn-error w-full sm:w-fit"
+          (click)="removeFromCart(item.id)"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+    }
+
+    <div class="text-right mt-4 text-xl font-semibold">
+      Total: {{ getTotal() | currency:'USD':'symbol':'1.2-2':'en-US' }}
+    </div>
+
+    <div class="flex justify-end mt-6">
+      <button
+        class="btn btn-primary w-full sm:w-fit"
+        (click)="openCheckoutModal()"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+  }
+</div>
+
+<dialog id="checkoutModal" class="modal" #checkoutModal>
+  <div class="modal-box w-full max-w-md">
+    <h3 class="text-lg font-bold mb-4">Complete your Order</h3>
+
+    <form class="flex flex-col gap-4">
+      <select
+        class="select select-bordered w-full"
+        [(ngModel)]="selectedAddressId"
+        name="address"
+        required
+      >
+        <option disabled selected value="">Select Address</option>
+        @for (a of addresses; track a.id) {
+        <option [value]="a.id">
+          {{ a.line_1 }}, {{ a.city }}, {{ a.state }}
+        </option>
+        }
+      </select>
+
+      <select
+        class="select select-bordered w-full"
+        [(ngModel)]="selectedPaymentMethodId"
+        name="paymentMethod"
+        required
+      >
+        <option disabled selected value="">Select Payment Method</option>
+        @for (p of paymentMethods; track p.id) {
+        <option [value]="p.id">
+          {{ p.card_brand }} •••• {{ p.card_last4 }} ({{ p.exp_month }}/{{
+          p.exp_year }})
+        </option>
+        }
+      </select>
+
+      <input
+        type="date"
+        class="input input-bordered w-full"
+        [(ngModel)]="deliveryDate"
+        name="deliveryDate"
+        required
+      />
+
+      <div class="modal-action flex justify-between">
+        <form method="dialog">
+          <button class="btn w-full sm:w-fit">Cancel</button>
+        </form>
+        <button
+          class="btn btn-primary w-full sm:w-fit"
+          (click)="confirmOrder()"
+        >
+          Confirm Order
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<app-footer />

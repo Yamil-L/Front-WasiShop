@@ -1,0 +1,16 @@
+<app-header />
+
+<section class="my-6">
+  <h1 class="text-3xl text-center mb-6 font-bold">All Bundles</h1>
+  <div class="container mx-auto px-4">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      @for (bundle of newBundles; track bundle.id) {
+      <app-new-bundle-card [bundle]="bundle" />
+      }
+    </div>
+  </div>
+</section>
+
+<app-footer />

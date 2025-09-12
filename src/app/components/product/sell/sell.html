@@ -1,0 +1,139 @@
+<!-- <div class="flex flex-col-reverse md:flex-row items-start">
+
+  <div class="w-full md:w-1/2 flex flex-col gap-4 p-6">
+    <div class="flex gap-4 flex-wrap">
+      <span>{{product.sku}}</span>
+    </div>
+
+    <h1 class="text-3xl">
+      <strong>{{product.name}}</strong>
+    </h1>
+    <div class="divider"></div>
+
+    @if (product.discount_percent) {
+    <div class="flex items-baseline gap-2">
+      <h3 class="text-sm primary text-error line-through">
+        {{ product.price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+      </h3>
+      <h3 class="text-xl font-semibold text-primary">
+        {{ discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+      </h3>
+    </div>
+    } @else {
+    <h3 class="text-xl font-semibold text-primary">
+      {{ product.price | currency:'USD':'symbol':'1.2-2':'en-US' }}
+    </h3>
+    }
+
+    <div class="flex gap-4">
+      <div class="join">
+        <button class="btn join-item" (click)="decreaseQuantity()">
+          <i-lucide [img]="minusIcon" />
+        </button>
+        <input
+          type="number"
+          class="input join-item appearance-none"
+          min="1"
+          [value]="quantity"
+          (input)="quantity = $any($event.target).valueAsNumber"
+        />
+        <button class="btn join-item" (click)="increaseQuantity()">
+          <i-lucide [img]="plusIcon" />
+        </button>
+      </div>
+      <button class="btn btn-secondary" (click)="addToCart()">
+        Add to cart
+      </button>
+    </div>
+
+    <div class="flex gap-4">
+      <button class="btn btn-ghost btn-accent" disabled>
+        Add to favorites
+        <i-lucide [img]="heartIcon" />
+      </button>
+    </div>
+
+    <app-rating [rate]="4" />
+
+    <div class="hidden lg:block">
+      <app-comments />
+    </div>
+  </div>
+
+
+  <div class="w-full md:w-1/2 p-6">
+    <img
+      [src]="productImageUrl"
+      class="w-full object-cover rounded-xl"
+      [alt]="product.name"
+      #productImage
+    />
+  </div>
+</div>
+
+<div class="block lg:hidden p-6">
+  <app-comments />
+</div> -->
+
+
+
+@if (product) {
+<div class="flex flex-col md:flex-row gap-6 p-6">
+  <!-- Imagen del producto -->
+  <div class="w-full md:w-1/2">
+    <img
+      [src]="productImageUrl"
+      [alt]="product.name"
+      class="w-full object-cover rounded-xl"
+    />
+  </div>
+
+  <!-- Detalles -->
+  <div class="w-full md:w-1/2 flex flex-col gap-4">
+    <h1 class="text-3xl font-bold">{{product.name}}</h1>
+    <p>Precio por {{product.unit}}</p>
+
+    @if (product.discount_percent) {
+    <div class="flex items-baseline gap-2">
+      <span class="line-through text-gray-400">
+        {{product.price | currency:'USD':'symbol':'1.2-2':'en-US'}}
+      </span>
+      <span class="text-xl font-semibold text-primary">
+        {{discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US'}}
+      </span>
+    </div>
+    } @else {
+    <span class="text-xl font-semibold text-primary">
+      {{product.price | currency:'USD':'symbol':'1.2-2':'en-US'}}
+    </span>
+    }
+
+    <div class="flex gap-4 mt-4 items-center">
+      <button class="btn btn-outline" (click)="decreaseQuantity()">-</button>
+      <span>{{quantity}}</span>
+      <button class="btn btn-outline" (click)="increaseQuantity()">+</button>
+
+      <button
+        class="btn"
+        [ngClass]="isFavorite ? 'btn-error' : 'btn-ghost btn-accent'"
+        (click)="toggleFavorite()"
+      >
+        {{isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}}
+        <i-lucide [img]="heartIcon"></i-lucide>
+      </button>
+    </div>
+
+    <div class="mt-4">
+      <button class="btn btn-primary" (click)="addToCart()">Agregar al carrito</button>
+    </div>
+
+    <div class="mt-4">
+      <app-rating [rate]="product.averageRate"></app-rating>
+    </div>
+
+    <div class="mt-4">
+      <app-comments></app-comments>
+    </div>
+  </div>
+</div>
+}

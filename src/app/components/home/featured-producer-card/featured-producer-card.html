@@ -1,0 +1,39 @@
+<!-- <div
+  class="card bg-base-100 image-full cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 w-[288px] shadow-sm"
+  (click)="goToProducer()"
+>
+  <figure>
+    <img
+      class="absolute inset-0 w-full h-full object-cover rounded-lg"
+      [src]="imageUrl"
+      [alt]="producer().name"
+    />
+  </figure>
+  <div class="card-body flex flex-col items-center justify-center text-center">
+    <h2 class="card-title">{{producer().name}}</h2>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary" (click)="goToProducer()">See more</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div
+  class="card bg-base-100 image-full cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 w-[288px] shadow-sm"
+  
+>
+  <figure>
+    <img
+      class="absolute inset-0 w-full h-full object-cover rounded-lg"
+    [src]="producer().image_path"
+    [alt]="producer().name"
+    />
+  </figure>
+  <div class="card-body flex flex-col items-center justify-center text-center">
+    <h2 class="card-title">{{producer().name}}</h2>
+    <div class="card-actions justify-end">
+      <!-- <button class="btn btn-primary" (click)="goToProducer()">See more</button> -->
+    </div>
+  </div>
+</div>

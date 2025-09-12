@@ -1,0 +1,19 @@
+<div class="flex flex-col items-center text-center px-4 my-8">
+  <h1 class="text-3xl mb-6">
+    <strong>¿Qué es WasiShop?</strong>
+  </h1>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl"
+  >
+    @for (item of aboutItems; track item) {
+    <div
+      class="bg-base-100 p-4 rounded-xl shadow flex flex-col items-center text-center"
+    >
+      <i-lucide [img]="item.icon" class="w-8 h-8 mb-2 text-primary" />
+      <h2 class="text-lg font-semibold mb-1">{{ item.name }}</h2>
+      <p class="text-sm opacity-70">{{ item.description }}</p>
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,77 @@
+@if (grouped) {
+<div class="flex items-center justify-center min-h-screen">
+  <ul class="list bg-base-100 rounded-box shadow-md p-4 w-full">
+    @for (group of grouped; track group.address.id) {
+    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
+      Active subscriptions at {{ group.address | address }}
+    </li>
+
+    @for (subscription of group.subscriptions; track subscription.id) {
+    <li
+      class="list-row flex flex-col md:flex-row md:items-center gap-2 md:gap-4"
+    >
+      <div>
+        <div>{{ subscription.bundle.name }}</div>
+        <div class="text-xs uppercase font-semibold opacity-60">
+          {{ subscription.bundle.price | currency:'USD':'symbol':'1.2-2':'en-US'
+          }}
+        </div>
+      </div>
+
+      <div class="text-xs font-semibold opacity-60 md:ml-auto">
+        {{ `Renews the ${subscription.delivery}th of every month` }}
+      </div>
+
+      <button
+        class="btn btn-accent w-full md:w-fit"
+        (click)="openManageModal(subscription)"
+      >
+        Manage
+      </button>
+      <button
+        class="btn btn-error w-full md:w-fit"
+        (click)="cancelSubscription(subscription.id)"
+      >
+        Cancel
+      </button>
+    </li>
+    } }
+  </ul>
+</div>
+
+<dialog id="manageModal" class="modal" #manageModal>
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Edit Subscription</h3>
+    <form class="flex flex-col gap-4" (ngSubmit)="confirmUpdate()">
+      <select
+        class="select select-bordered"
+        [(ngModel)]="selectedAddressId"
+        name="address"
+        required
+      >
+        @for ( a of addresses; track $index) {
+        <option [value]="a.id">{{ a.line_1 }} - {{ a.city }}</option>
+        }
+      </select>
+
+      <input
+        type="number"
+        class="input input-bordered"
+        min="1"
+        max="31"
+        [(ngModel)]="deliveryDay"
+        name="delivery"
+        required
+        placeholder="Delivery Day"
+      />
+
+      <div class="modal-action">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" type="button" (click)="closeManageModal()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+}

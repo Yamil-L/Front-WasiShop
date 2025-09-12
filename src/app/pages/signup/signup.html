@@ -1,0 +1,155 @@
+<div class="min-h-screen flex items-center justify-center bg-base-200 px-4">
+  <div class="bg-base-100 shadow-lg rounded-xl p-6 sm:p-8 w-full max-w-4xl">
+    <h2 class="text-2xl font-bold text-center mb-6">Create Account</h2>
+
+    <form
+      [formGroup]="signupForm"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    >
+      <!-- First name -->
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend mb-1 text-gray-500">First name</legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="text"
+            formControlName="name"
+            class="w-full placeholder-gray-400"
+            placeholder="Your name"
+          />
+        </label>
+        @if (signupForm.get('name')?.invalid && signupForm.get('name')?.touched)
+        {
+        <p class="text-error text-sm">Name is required</p>
+        }
+      </fieldset>
+
+      <!-- Last name -->
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend mb-1 text-gray-500">Last name</legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="text"
+            formControlName="lastname"
+            class="w-full placeholder-gray-400"
+            placeholder="Your lastname"
+          />
+        </label>
+        @if (signupForm.get('lastname')?.invalid &&
+        signupForm.get('lastname')?.touched) {
+        <p class="text-error text-sm">Last name is required</p>
+        }
+      </fieldset>
+
+      <!-- Email -->
+      <fieldset class="fieldset sm:col-span-2">
+        <legend class="fieldset-legend mb-1 text-gray-500">
+          Email address
+        </legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="email"
+            formControlName="email"
+            class="w-full placeholder-gray-400"
+            placeholder="mail@site.com"
+          />
+        </label>
+        @if (signupForm.get('email')?.invalid &&
+        signupForm.get('email')?.touched) {
+        <p class="text-error text-sm">Valid email is required</p>
+        }
+      </fieldset>
+
+      <!-- Password -->
+      <fieldset class="fieldset sm:col-span-2">
+        <legend class="fieldset-legend mb-1 text-gray-500">Password</legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="password"
+            formControlName="password"
+            class="w-full placeholder-gray-400"
+            placeholder="••••••••"
+          />
+        </label>
+        @if (signupForm.get('password')?.invalid &&
+        signupForm.get('password')?.touched) {
+        <p class="text-error text-sm">Password is required</p>
+        }
+      </fieldset>
+
+      <!-- Gender -->
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend mb-1 text-gray-500">Gender</legend>
+        <select formControlName="gender" class="select select-bordered w-full">
+          <option value="" disabled selected>Select gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Other">Other</option>
+        </select>
+        @if (signupForm.get('gender')?.invalid &&
+        signupForm.get('gender')?.touched) {
+        <p class="text-error text-sm">Gender is required</p>
+        }
+      </fieldset>
+
+      <!-- Birthdate -->
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend mb-1 text-gray-500">
+          Birthdate (optional)
+        </legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="date"
+            formControlName="birthdate"
+            class="w-full placeholder-gray-400"
+          />
+        </label>
+      </fieldset>
+
+      <!-- Phone number -->
+      <fieldset class="fieldset sm:col-span-2">
+        <legend class="fieldset-legend mb-1 text-gray-500">
+          Phone number (optional)
+        </legend>
+        <label class="input input-bordered w-full">
+          <input
+            type="tel"
+            formControlName="phone_number"
+            class="w-full placeholder-gray-400"
+            placeholder="+12345678901"
+          />
+        </label>
+      </fieldset>
+
+      <!-- Newsletter -->
+      <div class="form-control sm:col-span-2">
+        <label class="label cursor-pointer justify-between w-full">
+          <span class="label-text">Subscribe to newsletter</span>
+          <input
+            type="checkbox"
+            class="toggle toggle-primary"
+            formControlName="newsletter_subscribed"
+          />
+        </label>
+      </div>
+
+      <!-- Submit -->
+      <div class="sm:col-span-2">
+        <button
+          class="btn btn-primary w-full"
+          type="submit"
+          [disabled]="signupForm.invalid"
+        >
+          Sign Up
+        </button>
+
+        <div class="text-center mt-4">
+          <p class="text-sm text-gray-500">
+            Already have an account?
+            <a href="/login" class="text-primary hover:underline">Log in</a>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

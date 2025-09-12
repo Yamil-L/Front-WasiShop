@@ -1,0 +1,44 @@
+<section>
+  <h1 class="text-3xl text-center mt-6">
+    <strong>Nuestras Mejores Opciones</strong>
+  </h1>
+  <div class="carousel w-full">
+    @for (productGroup of this.featuredProductsInGroups(itemsPerGroup); track
+    $index; let count = $count) {
+    <div id="slide{{ $index + 1 }}" class="carousel-item relative w-full">
+      <!-- Products -->
+
+      <div
+        class="flex justify-evenly items-start gap-6 flex-wrap mx-auto my-8 px-4"
+      >
+        @for (product of productGroup; track $index) {
+        <app-featured-product-card [product]="product" />
+        }
+      </div>
+
+      <!-- Control Arrows -->
+      <div
+        class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+      >
+        @if ($index === 0) {
+        <a href="#slide{{ count - 1 }}" class="btn btn-circle">
+          <i-lucide [img]="leftIcon"></i-lucide>
+        </a>
+        } @else {
+        <a href="#slide{{ $index }}" class="btn btn-circle">
+          <i-lucide [img]="leftIcon"></i-lucide>
+        </a>
+        } @if ($index === count - 1) {
+        <a href="#slide1" class="btn btn-circle">
+          <i-lucide [img]="rightIcon"></i-lucide>
+        </a>
+        } @else {
+        <a href="#slide{{ $index + 2 }}" class="btn btn-circle">
+          <i-lucide [img]="rightIcon"></i-lucide>
+        </a>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,19 @@
+<div
+  class="card shadow-sm cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 w-[300px]"
+  (click)="goToBundle()"
+>
+  <figure class="w-full h-48 overflow-hidden">
+    <img
+      [src]="bundle().imageUrl"
+      [alt]="bundle().name"
+      class="w-full h-full object-cover"
+    />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">
+      {{bundle().name}}
+      <div class="badge badge-secondary">NEW</div>
+    </h2>
+    <p>{{bundle().description}}</p>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-4">
+  @for (item of menuItems; track item; let l = $last) {
+  <button
+    class="btn w-full"
+    [ngClass]="{
+        'btn-error': item.name === 'Log out',
+        'btn-info': item.name !== 'Log out'
+      }"
+    [routerLink]="item.route ? [item.route] : null"
+    [disabled]="item.route && isActive(item.route)"
+    (click)="handleClick(item.name)"
+  >
+    <i-lucide [img]="item.icon" class="mr-2" />
+    {{ item.name }}
+  </button>
+  }
+</div>
