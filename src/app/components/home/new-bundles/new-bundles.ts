@@ -36,9 +36,10 @@
 
 
 
-import { Component } from '@angular/core';
-import { Bundle } from '../../../interfaces/bundle';
+import { Component, OnInit } from '@angular/core';
+import { DynamicBundle } from '../../../interfaces/dynamic-bundle';
 import { NewBundleCard } from '../new-bundle-card/new-bundle-card';
+import { App2BundleService } from '../../../services/app2-bundle.service';
 
 @Component({
   selector: 'app-new-bundles',
@@ -46,39 +47,32 @@ import { NewBundleCard } from '../new-bundle-card/new-bundle-card';
   templateUrl: './new-bundles.html',
   styleUrl: './new-bundles.css',
 })
-export class NewBundles {
-  newBundles: (Bundle & { imageUrl: string })[] = [
-    {
-      id: "1",
-      name: 'Auriculares Inalámbricos Pro',
-      description: 'Sonido envolvente con batería de larga duración.',
-      discount_percent: 5,
-      created_date: '2025-02-01',
-      imageUrl: '/images/auriculares.jpg',
-    },
-    {
-      id: "2",
-      name: 'Camiseta Edición Especial',
-      description: 'Camiseta 100% algodón con estampado exclusivo.',
-      discount_percent: 0,
-      created_date: '2025-02-10',
-      imageUrl: '/images/camiseta.jpeg',
-    },
-    {
-      id: "3",
-      name: 'Figura Coleccionable',
-      description: 'Figura de edición limitada para coleccionistas.',
-      discount_percent: 15,
-      created_date: '2025-03-01',
-      imageUrl: '/images/figura.jpg',
-    },
-    {
-      id: "4",
-      name: 'Mochila de Viaje',
-      description: 'Mochila resistente y cómoda, ideal para viajes.',
-      discount_percent: 0,
-      created_date: '2025-03-10',
-      imageUrl: '/images/mochila.jpg',
-    },
-  ];
+export class NewBundles implements OnInit {
+  newBundles: DynamicBundle[] = [];
+
+  constructor(private app2BundleService: App2BundleService) {}
+
+  ngOnInit() {
+    this.app2BundleService.getBundles().subscribe({
+      next: (data) => {
+        // productos exclusivos app2
+        const exclusivos: DynamicBundle[] = [
+          {
+            id: "local-1",
+            name: 'Producto Exclusivo App2',
+            description: 'Solo visible en la app2',
+            discount_percent: 0,
+            created_date: '2025-09-18',
+            imageUrl: '/images/app2-only.jpg',
+          }
+        ];
+
+        // mezclar API + exclusivos
+        this.newBundles = [...data, ...exclusivos];
+      },
+      error: (err) => {
+        console.error('Error cargando bundles en app2:', err);
+      }
+    });
+  }
 }
