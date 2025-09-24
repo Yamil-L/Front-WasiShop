@@ -1,13 +1,12 @@
 import { Component, input, InputSignal } from '@angular/core';
 import { Rating } from '../../common/rating/rating';
-import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductDto } from '../../../services/product-service';
 import { ProductService } from '../../../services/product-service';
 
 @Component({
   selector: 'app-featured-product-card',
-  imports: [Rating, CurrencyPipe],
+  imports: [Rating],
   templateUrl: './featured-product-card.html',
   styleUrl: './featured-product-card.css',
 })

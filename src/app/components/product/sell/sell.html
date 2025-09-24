@@ -96,15 +96,15 @@
     @if (product.discount_percent) {
     <div class="flex items-baseline gap-2">
       <span class="line-through text-gray-400">
-        {{product.price | currency:'USD':'symbol':'1.2-2':'en-US'}}
+        S/.{{product.price}}
       </span>
       <span class="text-xl font-semibold text-primary">
-        {{discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US'}}
+        S/.{{discountedPrice}}
       </span>
     </div>
     } @else {
     <span class="text-xl font-semibold text-primary">
-      {{product.price | currency:'USD':'symbol':'1.2-2':'en-US'}}
+      S/.{{product.price}}
     </span>
     }
 

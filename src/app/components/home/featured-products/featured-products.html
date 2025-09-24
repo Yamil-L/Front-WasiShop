@@ -1,12 +1,11 @@
-<section>
+<!-- <section>
   <h1 class="text-3xl text-center mt-6">
     <strong>Nuestras Mejores Opciones</strong>
   </h1>
-  <div class="carousel w-full">
+  <div class="carousel w-full bg-red-600">
     @for (productGroup of this.featuredProductsInGroups(itemsPerGroup); track
     $index; let count = $count) {
     <div id="slide{{ $index + 1 }}" class="carousel-item relative w-full">
-      <!-- Products -->
 
       <div
         class="flex justify-evenly items-start gap-6 flex-wrap mx-auto my-8 px-4"
@@ -16,7 +15,6 @@
         }
       </div>
 
-      <!-- Control Arrows -->
       <div
         class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
       >
@@ -41,4 +39,20 @@
     </div>
     }
   </div>
+</section> -->
+
+<section>
+
+  <!-- 🔹 Contenedor centrado -->
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <!-- 🔹 Grid Responsive -->
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      @for (product of products; track product.id) {
+      <app-featured-product-card [product]="product" />
+      }
+    </div>
+  </div>
 </section>
+
