@@ -21,12 +21,12 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'product/:id',
     component: Product,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'bundle/:id',
