@@ -45,32 +45,42 @@ export class FeaturedProducts implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.http
-      .get<any[]>(this.baseUrl, {
-        headers: { 'x-tenant-id': 'cliente-1' },
-      })
-      .subscribe({
-        next: (data) => {
-          // 🔹 Mapeamos la respuesta de la API al ProductDto esperado
-          this.products = data.map((p) => ({
-            id: p._id,
-            name: p.descripcion, // usamos descripcion como nombre
-            description: p.categoria, // categoría como "descripción"
-            price: p.precio,
-            discount_percent: 0, // no existe en API, dejamos en 0
-            created_date: p.createdAt,
-            sku: p.contenedor ?? '', // contenedor como sku
-            unit: 'pcs', // fijo ya que API no trae unidad
-            bundle_id: '',
-            brand_id: '',
-            image_path: '/images/default.jpg', // placeholder porque API no trae imágenes
-          }));
-          this.cdr.markForCheck();
-        },
-        error: (err) => console.error('❌ Error cargando productos:', err),
-      });
+    console.log('🚀 FeaturedProducts component initialized');
+    this.loadProducts();
+    console.log('📦 Productos actuales:', this.products);
+    this.setupBreakpointObserver();
+  }
 
-    // 🔹 Responsividad
+  private async loadProducts(): Promise<void> {
+    console.log('⏳ Cargando productos...');
+    try {
+      const data = await this.http
+        .get<any[]>(this.baseUrl, {
+          headers: { 'x-tenant-id': 'cliente-1' },
+        })
+        .toPromise(); // Convertimos el Observable a una Promise
+      console.log('✅ Productos cargados:', data);
+      // 🔹 Mapeamos la respuesta de la API al ProductDto esperado
+      this.products = (data ?? []).map((p) => ({
+        id: p._id,
+        name: p.descripcion, // usamos descripcion como nombre
+        description: p.categoria, // categoría como "descripción"
+        price: p.precio,
+        discount_percent: 0, // no existe en API, dejamos en 0
+        created_date: p.createdAt,
+        sku: p.contenedor ?? '', // contenedor como sku
+        unit: 'pcs', // fijo ya que API no trae unidad
+        bundle_id: '',
+        brand_id: '',
+        image_path: '/images/default.jpg', // placeholder porque API no trae imágenes
+      }));
+      this.cdr.markForCheck();
+    } catch (err) {
+      console.error('❌ Error cargando productos:', err);
+    }
+  }
+
+  private setupBreakpointObserver(): void {
     this.breakpointObserver
       .observe([
         '(max-width: 740px)',

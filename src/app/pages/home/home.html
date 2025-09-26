@@ -1,6 +1,139 @@
 <app-header />
-<app-new-bundles />
-<app-featured-products />
-<app-featured-producers />
+
+<div class="flex flex-col md:flex-row gap-6 p-4">
+
+  <!-- Filtros -->
+  <aside class="w-full md:w-72 bg-white border border-gray-200 rounded-lg shadow p-4 space-y-6">
+    <h2 class="text-lg font-semibold text-gray-800">Filtros</h2>
+
+    <!-- Precio -->
+    <section class="space-y-2">
+      <h3 class="text-sm font-medium text-gray-700">Precio</h3>
+      <div class="flex gap-2">
+        <input
+          type="number"
+          [(ngModel)]="minPrice"
+          (input)="emitFilters()"
+          placeholder="Mín"
+          class="w-1/2 px-2 py-1 border rounded text-sm focus:outline-none focus:ring focus:ring-blue-300"
+        />
+        <input
+          type="number"
+          [(ngModel)]="maxPrice"
+          (input)="emitFilters()"
+          placeholder="Máx"
+          class="w-1/2 px-2 py-1 border rounded text-sm focus:outline-none focus:ring focus:ring-blue-300"
+        />
+      </div>
+      <!-- Rango -->
+      <div class="relative flex items-center h-6">
+        <input
+          type="range"
+          [min]="rangeMin"
+          [max]="rangeMax"
+          [(ngModel)]="minPrice"
+          (input)="emitFilters()"
+          class="absolute w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+        <input
+          type="range"
+          [min]="rangeMin"
+          [max]="rangeMax"
+          [(ngModel)]="maxPrice"
+          (input)="emitFilters()"
+          class="absolute w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+      </div>
+    </section>
+
+    <!-- Marca -->
+    <section>
+      <h3 class="text-sm font-medium text-gray-700 mb-1">Marca</h3>
+      <div class="space-y-1">
+        <label
+          *ngFor="let brand of brands"
+          class="flex items-center gap-2 text-sm text-gray-600"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="brand.selected"
+            (change)="emitFilters()"
+            class="rounded text-blue-600 focus:ring-blue-500"
+          />
+          {{ brand.name }}
+        </label>
+      </div>
+    </section>
+
+    <!-- Valoración -->
+    <section>
+      <h3 class="text-sm font-medium text-gray-700 mb-1">Valoración</h3>
+      <div class="space-y-1">
+        <label
+          *ngFor="let r of ratings"
+          class="flex items-center gap-2 text-sm text-gray-600"
+        >
+          <input
+            type="radio"
+            name="rating"
+            [(ngModel)]="selectedRating"
+            [value]="r.value"
+            (change)="emitFilters()"
+            class="text-blue-600 focus:ring-blue-500"
+          />
+          {{ r.label }}
+        </label>
+      </div>
+    </section>
+
+    <!-- Categoría -->
+    <section>
+      <h3 class="text-sm font-medium text-gray-700 mb-1">Categoría</h3>
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="emitFilters()"
+        class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring focus:ring-blue-300"
+      >
+        <option value="">Todas</option>
+        <option *ngFor="let cat of categories" [value]="cat">
+          {{ cat }}
+        </option>
+      </select>
+    </section>
+
+    <!-- Ordenamiento -->
+    <section>
+      <h3 class="text-sm font-medium text-gray-700 mb-1">Ordenar por</h3>
+      <select
+        [(ngModel)]="sortOrder"
+        (change)="emitFilters()"
+        class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring focus:ring-blue-300"
+      >
+        <option value="relevance">Relevancia</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+        <option value="rating">Mejor valoración</option>
+      </select>
+    </section>
+
+    <!-- Botón limpiar -->
+    <div class="text-right">
+      <button
+        (click)="clear()"
+        class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-sm rounded border border-gray-300"
+      >
+        Limpiar filtros
+      </button>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 space-y-6">
+    <app-new-bundles />
+    <app-featured-products />
+    <app-featured-producers />
+  </main>
+</div>
+
 <app-about />
 <app-footer />

@@ -37,7 +37,7 @@ export const routes: Routes = [
   {
     path: 'bundle/:id',
     component: Bundle,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'profile',
