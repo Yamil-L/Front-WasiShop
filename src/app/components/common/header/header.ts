@@ -14,6 +14,7 @@ import {
 } from 'lucide-angular';
 import { MenuItem } from '../../../interfaces/menu-item';
 import { Router, RouterModule } from '@angular/router';
+import { Coffee, Gift, Utensils, Apple } from 'lucide-angular';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,8 @@ export class Header {
   menuItems: MenuItem[];
   searchIcon: LucideIconData;
   menuIcon: LucideIconData;
+  categories: { name: string; route: string; icon: LucideIconData }[];
+  storeIcon: LucideIconData;
 
   constructor(private router: Router) {
     this.searchForm = new FormControl('', [
@@ -58,6 +61,15 @@ export class Header {
     ];
     this.searchIcon = Search;
     this.menuIcon = Menu;
+
+    this.categories = [
+      { name: 'Abarrotes', route: 'abarrotes', icon: Apple },
+      { name: 'Bebidas', route: 'bebidas', icon: Coffee },
+      { name: 'Hogar', route: 'hogar', icon: Gift },
+      { name: 'Electrodomésticos', route: 'electrodomesticos', icon: Utensils },
+    ];
+
+    this.storeIcon = Store;
   }
 
   onSearch() {

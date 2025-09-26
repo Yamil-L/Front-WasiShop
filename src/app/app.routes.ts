@@ -16,6 +16,8 @@ import { Signup } from './pages/signup/signup';
 import { Payment } from './components/profile/payment/payment';
 import { Allbundles } from './pages/allbundles/allbundles';
 import { Cart } from './pages/cart/cart';
+import { Categoria  } from './pages/categorias/categorias';
+
 
 export const routes: Routes = [
   {
@@ -23,6 +25,10 @@ export const routes: Routes = [
     component: Home,
     // canActivate: [AuthGuard],
   },
+  {
+  path: 'categorias/:category',
+  component: Categoria ,
+},
   {
     path: 'product/:id',
     component: Product,

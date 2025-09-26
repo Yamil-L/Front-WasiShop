@@ -3,11 +3,14 @@
   <div class="drawer-content flex flex-col">
     <!-- Navbar -->
     <header class="navbar shadow-sm">
+      <!-- Botón menú hamburguesa (móvil) -->
       <div class="flex-none lg:hidden">
         <label for="header-drawer" class="btn btn-square btn-ghost">
           <i-lucide [img]="menuIcon" />
         </label>
       </div>
+
+      <!-- Logo + buscador -->
       <div class="flex-1 menu menu-horizontal px-1">
         <a (click)="goHome()" class="btn btn-ghost text-xl hidden md:block">
           WasiShop
@@ -27,20 +30,45 @@
           >
             <i-lucide
               [img]="searchIcon"
-              [ngClass]="{ 'opacity-100': searchForm.valid, 'opacity-50': !searchForm.valid }"
+              [ngClass]="{
+                'opacity-100': searchForm.valid,
+                'opacity-50': !searchForm.valid
+              }"
               class="h-[1em] transition-opacity"
             ></i-lucide>
           </a>
         </label>
       </div>
+
+      <!-- Categorías (desktop) -->
+      <div class="hidden lg:flex ml-4">
+        <div class="dropdown dropdown-hover">
+          <label
+            tabindex="0"
+            class="btn btn-ghost font-medium flex items-center gap-2"
+          >
+            <i-lucide [img]="storeIcon"></i-lucide>
+            Categorías
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box shadow-md mt-3 w-56"
+          >
+            @for (cat of categories; track cat) {
+            <li>
+              <a [routerLink]="['/categorias', cat.route]">{{ cat.name }}</a>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Menú de usuario -->
       <div class="hidden flex-none lg:block">
         <ul class="menu menu-horizontal px-1 hidden md:flex">
           @for (item of menuItems; track item) {
           <li>
-            <a
-              class="flex items-center gap-2"
-              [routerLink]="['/' + item.route]"
-            >
+            <a class="flex items-center gap-2" [routerLink]="['/' + item.route]">
               <i-lucide [img]="item.icon" />
               <span>{{ item.name }}</span>
             </a>
@@ -50,19 +78,35 @@
       </div>
     </header>
   </div>
+
+  <!-- Drawer lateral (móvil) -->
   <div class="drawer-side">
-    <!-- Drawer -->
     <label
       for="header-drawer"
       aria-label="close sidebar"
       class="drawer-overlay"
     ></label>
     <ul class="menu bg-base-200 min-h-full w-80 p-4">
+      <!-- Logo móvil -->
       <li>
-        <a class="btn btn-ghost text-xl md:hidden" (click)="goHome()"
-          >WasiShop</a
-        >
+        <a class="btn btn-ghost text-xl md:hidden" (click)="goHome()">
+          WasiShop
+        </a>
       </li>
+
+      <!-- Categorías (móvil) -->
+      <li class="mt-4 font-bold text-gray-500">Categorías</li>
+      @for (cat of categories; track cat) {
+      <li>
+        <a [routerLink]="['/categorias', cat.route]">
+          <i-lucide [img]="cat.icon"></i-lucide>
+          <span>{{ cat.name }}</span>
+        </a>
+      </li>
+      }
+
+      <!-- Menú usuario (móvil) -->
+      <li class="mt-4 font-bold text-gray-500">Menú</li>
       @for (item of menuItems; track item) {
       <li>
         <a class="flex items-center gap-2" [routerLink]="['/' + item.route]">
