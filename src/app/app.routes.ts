@@ -3,6 +3,7 @@ import { Home } from './pages/home/home';
 import { Product } from './pages/product/product';
 import { Bundle } from './pages/bundle/bundle';
 import { Profile } from './pages/profile/profile';
+import { Contact } from './pages/contact/contact';
 import { Me } from './components/profile/me/me';
 import { Addresses } from './components/profile/addresses/addresses';
 import { Subscriptions } from './components/profile/subscriptions/subscriptions';
@@ -81,6 +82,10 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: Cart,
+  },
+  {
+    path: 'contact',
+    component: Contact,
   },
   {
     path: '**',

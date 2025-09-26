@@ -67,8 +67,8 @@
   }">
     @for (product of filteredProducts; track product.id) {
       <!-- Vista Grid -->
+       @if(isGridView){
       <div 
-        *ngIf="isGridView"
         class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
         (click)="goToProduct(product.id)">
         
@@ -111,10 +111,10 @@
           </div>
         </div>
       </div>
-
+       }
       <!-- Vista Lista -->
+      @if(!isGridView) {
       <div 
-        *ngIf="!isGridView"
         class="card card-side bg-base-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
         (click)="goToProduct(product.id)">
         
@@ -159,6 +159,8 @@
           </div>
         </div>
       </div>
+      }
+
     } @empty {
       <div class="col-span-full text-center py-12">
         <i-lucide [img]="filterIcon" class="h-16 w-16 mx-auto text-gray-400 mb-4"></i-lucide>

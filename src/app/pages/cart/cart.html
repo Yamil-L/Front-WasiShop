@@ -4,98 +4,148 @@
   <h1 class="text-3xl font-bold mb-6 text-center">Your Cart</h1>
 
   @if (cartItems.length === 0) {
-  <p class="text-center text-lg">Your cart is empty.</p>
-  } @else {
-  <div class="grid gap-6">
-    @for (item of cartItems; track item.id) {
-    <div
-      class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 border p-4 rounded-lg shadow-md"
-    >
+    <!-- Estado vacío -->
+    <div class="flex flex-col items-center justify-center py-20 text-center">
       <img
-        [src]="item.imageUrl"
-        alt="{{ item.product?.name }}"
-        class="w-full sm:w-24 h-24 object-cover rounded-md"
+        src="assets/empty-cart.svg"
+        alt="Empty Cart"
+        class="w-40 h-40 mb-6 opacity-80"
       />
+      <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
+      <p class="text-gray-500 mb-6">
+        Looks like you haven’t added anything yet.
+      </p>
+      <a ref="/" class="btn btn-primary">
+        Browse Products
+      </a>
+    </div>
+  } @else {
+    <!-- Lista de productos -->
+    <div class="grid gap-6">
+      @for (item of cartItems; track item.id) {
+        <div
+          class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 border p-4 rounded-lg shadow-md hover:shadow-lg transition"
+        >
+          <div class="relative">
+            <img
+              [src]="item.imageUrl"
+              alt="{{ item.product?.name }}"
+              class="w-full sm:w-24 h-24 object-cover rounded-md"
+            />
+            @if (item.product?.discount_percent) {
+              <span
+                class="absolute top-1 left-1 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded"
+              >
+                -{{ item.product!.discount_percent }}%
+              </span>
+            }
+          </div>
 
-      <div class="flex-1">
-        <h2 class="text-xl font-bold">{{ item.product?.name }}</h2>
-        <p class="text-sm text-gray-500">{{ item.product?.description }}</p>
-        <p class="text-sm text-gray-500">Quantity: {{ item.quantity }}</p>
-        <p class="text-sm text-gray-500">
-          Price: {{ (item.product!.price - item.product!.price *
-          (item.product!.discount_percent || 0) / 100) |
-          currency:'USD':'symbol':'1.2-2':'en-US' }} x {{ item.quantity }}
-        </p>
+          <div class="flex-1">
+            <h2 class="text-xl font-bold">{{ item.product?.name }}</h2>
+            <p class="text-sm text-gray-500 mb-2">
+              {{ item.product?.description }}
+            </p>
+            <p class="text-sm">
+              <span class="font-semibold">Quantity:</span> {{ item.quantity }}
+            </p>
+            <p class="text-sm">
+              <span class="font-semibold">Price:</span>
+              {{
+                (item.product!.price -
+                  (item.product!.price *
+                    (item.product!.discount_percent || 0)) /
+                    100)
+                  | currency : "USD" : "symbol" : "1.2-2" : "en-US"
+              }}
+              × {{ item.quantity }}
+            </p>
+          </div>
+
+          <div class="w-full sm:w-auto">
+            <button
+              class="btn btn-error w-full sm:w-fit flex items-center gap-2"
+              (click)="removeFromCart(item.id)"
+            >
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Total -->
+      <div class="text-right mt-4 text-xl font-semibold">
+        Total:
+        {{
+          getTotal() | currency : "USD" : "symbol" : "1.2-2" : "en-US"
+        }}
       </div>
 
-      <div class="w-full sm:w-auto">
+      <!-- Botón de checkout -->
+      <div class="flex justify-end mt-6">
         <button
-          class="btn btn-error w-full sm:w-fit"
-          (click)="removeFromCart(item.id)"
+          class="btn btn-primary w-full sm:w-fit"
+          (click)="openCheckoutModal()"
         >
-          Remove
+          Proceed to Checkout
         </button>
       </div>
     </div>
-    }
-
-    <div class="text-right mt-4 text-xl font-semibold">
-      Total: {{ getTotal() | currency:'USD':'symbol':'1.2-2':'en-US' }}
-    </div>
-
-    <div class="flex justify-end mt-6">
-      <button
-        class="btn btn-primary w-full sm:w-fit"
-        (click)="openCheckoutModal()"
-      >
-        Proceed to Checkout
-      </button>
-    </div>
-  </div>
   }
 </div>
 
+<!-- Checkout Modal -->
 <dialog id="checkoutModal" class="modal" #checkoutModal>
   <div class="modal-box w-full max-w-md">
-    <h3 class="text-lg font-bold mb-4">Complete your Order</h3>
+    <h3 class="text-lg font-bold mb-4 text-center">Complete your Order</h3>
 
     <form class="flex flex-col gap-4">
-      <select
-        class="select select-bordered w-full"
-        [(ngModel)]="selectedAddressId"
-        name="address"
-        required
-      >
-        <option disabled selected value="">Select Address</option>
-        @for (a of addresses; track a.id) {
-        <option [value]="a.id">
-          {{ a.line_1 }}, {{ a.city }}, {{ a.state }}
-        </option>
-        }
-      </select>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Delivery Address</label>
+        <select
+          class="select select-bordered w-full"
+          [(ngModel)]="selectedAddressId"
+          name="address"
+          required
+        >
+          <option disabled selected value="">Select Address</option>
+          @for (a of addresses; track a.id) {
+            <option [value]="a.id">
+              {{ a.line_1 }}, {{ a.city }}, {{ a.state }}
+            </option>
+          }
+        </select>
+      </div>
 
-      <select
-        class="select select-bordered w-full"
-        [(ngModel)]="selectedPaymentMethodId"
-        name="paymentMethod"
-        required
-      >
-        <option disabled selected value="">Select Payment Method</option>
-        @for (p of paymentMethods; track p.id) {
-        <option [value]="p.id">
-          {{ p.card_brand }} •••• {{ p.card_last4 }} ({{ p.exp_month }}/{{
-          p.exp_year }})
-        </option>
-        }
-      </select>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Payment Method</label>
+        <select
+          class="select select-bordered w-full"
+          [(ngModel)]="selectedPaymentMethodId"
+          name="paymentMethod"
+          required
+        >
+          <option disabled selected value="">Select Payment Method</option>
+          @for (p of paymentMethods; track p.id) {
+            <option [value]="p.id">
+              {{ p.card_brand }} •••• {{ p.card_last4 }} ({{ p.exp_month }}/{{
+                p.exp_year
+              }})
+            </option>
+          }
+        </select>
+      </div>
 
-      <input
-        type="date"
-        class="input input-bordered w-full"
-        [(ngModel)]="deliveryDate"
-        name="deliveryDate"
-        required
-      />
+      <div>
+        <label class="block text-sm font-semibold mb-1">Delivery Date</label>
+        <input
+          type="date"
+          class="input input-bordered w-full"
+          [(ngModel)]="deliveryDate"
+          name="deliveryDate"
+          required
+        />
+      </div>
 
       <div class="modal-action flex justify-between">
         <form method="dialog">

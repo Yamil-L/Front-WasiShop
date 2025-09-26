@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Grid, List, Filter, Star, LucideIconData } from 'lucide-angular';
 import { Header } from '../../components/common/header/header';
@@ -21,7 +21,7 @@ interface Product {
 @Component({
   selector: 'app-categoria',
   standalone: true,
-  imports: [Header, Footer,NgClass, NgFor, NgIf, LucideAngularModule, FormsModule],
+  imports: [Header, Footer,NgClass, LucideAngularModule, FormsModule],
   templateUrl: './categorias.html',
   styleUrls: ['./categorias.css']
 })
