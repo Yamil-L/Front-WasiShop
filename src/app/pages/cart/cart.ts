@@ -68,8 +68,8 @@ export class Cart implements OnInit {
     this.checkoutModalRef.nativeElement.showModal();
   }
   
-
-  /*
+/*
+  
   openCheckoutModal() {
   // ⚠️ Omitir validación de userId mientras pruebas
   this.paymentService.getAllByUser("fake-user").subscribe((methods) => {
