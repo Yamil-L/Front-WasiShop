@@ -3,7 +3,7 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold mb-6 text-center">Your Cart</h1>
 
-  @if (cartItems.length === 0) {
+    @if (cartItems.length === 0) {
     <!-- Estado vacío -->
     <div class="flex flex-col items-center justify-center py-20 text-center">
       <img
@@ -19,7 +19,7 @@
         Browse Products
       </a>
     </div>
-  } @else {
+    } @else {
     <!-- Lista de productos -->
     <div class="grid gap-6">
       @for (item of cartItems; track item.id) {
@@ -70,8 +70,9 @@
               <i class="bi bi-trash"></i> Remove
             </button>
           </div>
+        }
         </div>
-      }
+      
 
       <!-- Total -->
       <div class="text-right mt-4 text-xl font-semibold">
@@ -91,8 +92,10 @@
         </button>
       </div>
     </div>
-  }
-</div>
+    }
+  </div>
+  
+
 
 <!-- Checkout Modal -->
 <dialog id="checkoutModal" class="modal" #checkoutModal>
@@ -100,60 +103,49 @@
     <h3 class="text-lg font-bold mb-4 text-center">Complete your Order</h3>
 
     <form class="flex flex-col gap-4">
+      
+      <!-- Número de celular Yape -->
       <div>
-        <label class="block text-sm font-semibold mb-1">Delivery Address</label>
-        <select
-          class="select select-bordered w-full"
-          [(ngModel)]="selectedAddressId"
-          name="address"
-          required
-        >
-          <option disabled selected value="">Select Address</option>
-          @for (a of addresses; track a.id) {
-            <option [value]="a.id">
-              {{ a.line_1 }}, {{ a.city }}, {{ a.state }}
-            </option>
-          }
-        </select>
+        <label class="block text-sm font-semibold mb-1">
+          QR Yape
+        </label>
+          <!-- Número de celular fijo -->
+        <div class="flex justify-center my-3">
+          <img src="images/yape.png" alt="Yape QR" />
+
+        </div>
+
+        <p class="text-sm text-gray-500 mt-1 text-center">
+          Realiza el pago al número mostrado usando Yape.
+        </p>
       </div>
 
+      <!-- Número de operación -->
       <div>
-        <label class="block text-sm font-semibold mb-1">Payment Method</label>
-        <select
-          class="select select-bordered w-full"
-          [(ngModel)]="selectedPaymentMethodId"
-          name="paymentMethod"
-          required
-        >
-          <option disabled selected value="">Select Payment Method</option>
-          @for (p of paymentMethods; track p.id) {
-            <option [value]="p.id">
-              {{ p.card_brand }} •••• {{ p.card_last4 }} ({{ p.exp_month }}/{{
-                p.exp_year
-              }})
-            </option>
-          }
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-1">Delivery Date</label>
+        <label class="block text-sm font-semibold mb-1">
+          Número de operación de tu Yape
+        </label>
         <input
-          type="date"
+          type="text"
           class="input input-bordered w-full"
-          [(ngModel)]="deliveryDate"
-          name="deliveryDate"
+          name="paymentOperationNumber"
+          placeholder="Ej: 123456789"
           required
         />
+        <p class="text-sm text-gray-500 mt-1">
+          Ingresa el número de operación que aparece en la confirmación de Yape.
+        </p>
       </div>
 
+      <!-- Botones -->
       <div class="modal-action flex justify-between">
         <form method="dialog">
           <button class="btn w-full sm:w-fit">Cancel</button>
         </form>
         <button
+          type="button"
           class="btn btn-primary w-full sm:w-fit"
-          (click)="confirmOrder()"
+          (click)="confirmOrder($event)"
         >
           Confirm Order
         </button>
@@ -161,5 +153,15 @@
     </form>
   </div>
 </dialog>
+
+<!-- Notificación de compra completada -->
+<div
+  *ngIf="orderCompleted"
+  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+>
+  ✅ Compra completada
+</div>
+
+
 
 <app-footer />
