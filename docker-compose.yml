@@ -1,0 +1,11 @@
+services:
+  angular-app:
+    build: .
+    ports:
+      - "4242:4200"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: ng serve --host 0.0.0.0 --port 4200
