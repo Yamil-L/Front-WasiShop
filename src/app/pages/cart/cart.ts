@@ -33,6 +33,10 @@ export class Cart implements OnInit {
   cartItems: CartItem[] = [];
   orderCompleted = false;
 
+  reserva = '';
+  foto: File | null = null;
+  show_modal = false;
+
   @ViewChild('checkoutModal') checkoutModalRef!: ElementRef<HTMLDialogElement>;
 
   constructor(private cdr: ChangeDetectorRef, private router: Router) {}
@@ -69,10 +73,53 @@ export class Cart implements OnInit {
     }, 0);
   }
 
+  openModal() {
+    this.show_modal = true;
+  }
+
+  cerrarModal() {
+    this.show_modal = false;
+  }
+
+  onFileSelected(event: any) {
+    this.foto = event.target.files[0];
+  }
+
   openCheckoutModal() {
+    this.openModal();
+    console.log('[!] hacer reserva');
     const userId = sessionStorage.getItem('userId');
+    console.log('User ID:', userId);
+    console.log('items:', this.cartItems);
+    this.confirmarOrden();
     if (!userId) return;
     this.checkoutModalRef.nativeElement.showModal();
+  }
+
+  confirmarOrden(){
+    for (const item of this.cartItems) {
+      console.log('Item:', item);
+    }
+  }
+
+  onSubmit(): void {
+    if (!this.reserva || !this.foto) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    // Si quieres enviar al backend, preparas un FormData:
+    const formData = new FormData();
+    formData.append('reserva', this.reserva);
+    formData.append('foto', this.foto);
+
+    console.log('Reserva:', this.reserva);
+    console.log('Foto:', this.foto);
+
+    alert('Reserva guardada correctamente ✅');
+    this.cerrarModal();
+
+    this.clearCart();
   }
 
   confirmOrder(event?: Event) {
