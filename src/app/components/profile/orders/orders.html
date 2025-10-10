@@ -1,23 +1,53 @@
-<div class="flex items-center justify-center min-h-screen">
-  <ul class="list bg-base-100 rounded-box shadow-md p-4 w-full max-w-3xl">
-    @for (entry of groupOrdersByAddress().entries(); track entry[0]) {
-    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
-      Orders from {{ entry[0] }}
-    </li>
+<div class="flex items-center justify-center min-h-screen bg-base-200">
+  <ul class="list bg-base-100 rounded-box shadow-md p-6 w-full max-w-4xl">
+    @if (orders.length === 0) {
+      <li class="p-6 text-center opacity-70 text-sm">
+        No hay órdenes registradas aún.
+      </li>
+    } @else {
+      @for (entry of groupOrdersByAddress().entries(); track entry[0]) {
+        <li class="p-4 pb-2 text-xs opacity-60 tracking-wide uppercase border-b border-base-300">
+          Pedidos desde {{ entry[0] }}
+        </li>
 
-    @for (order of entry[1]; track order.id) {
-    <li
-      class="list-row flex flex-col md:flex-row md:items-start gap-2 md:gap-4"
-    >
-      <div class="flex-1">
-        <div>{{ order.delivery | date: 'MM/dd/yyyy' }}</div>
-        @for (row of order.order_rows; track row.id) {
-        <div class="text-xs uppercase font-semibold opacity-60">
-          {{ row.product.name }} × {{ row.quantity }}
-        </div>
+        @for (order of entry[1]; track order.id) {
+          <li
+            class="list-row flex flex-col md:flex-row md:items-start gap-4 border-b border-base-200 py-4"
+          >
+            <div class="flex-1">
+              <div class="font-semibold text-sm mb-2">
+                Fecha: {{ order.date | date: 'MMM dd, yyyy - HH:mm' }}
+              </div>
+
+              @for (row of order.order_rows; track row.product.id) {
+                <div class="flex items-center gap-3 mb-2">
+                  <img
+                    [src]="row.product.image_path"
+                    alt="{{ row.product.name }}"
+                    class="w-12 h-12 object-cover rounded-md border"
+                  />
+                  <div class="flex flex-col text-xs">
+                    <span class="font-semibold uppercase">{{
+                      row.product.name
+                    }}</span>
+                    <span>Cantidad: {{ row.quantity }}</span>
+                    <span>Precio unitario: S/.{{ row.product.price }}</span>
+                    <span class="font-bold mt-1"
+                      >Subtotal: S/.{{ row.product.price * row.quantity }}</span
+                    >
+                  </div>
+                </div>
+              }
+
+              <div
+                class="text-right mt-3 text-sm font-bold border-t border-base-200 pt-2"
+              >
+                Total pagado: S/.{{ order.total }}
+              </div>
+            </div>
+          </li>
         }
-      </div>
-    </li>
-    } }
+      }
+    }
   </ul>
 </div>

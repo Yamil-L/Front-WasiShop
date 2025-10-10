@@ -196,16 +196,16 @@
     @if (bundle.discount_percent) {
     <div class="flex items-baseline gap-2">
       <h3 class="text-sm primary text-error line-through">
-        {{ bundleTotalPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+        {{ bundleTotalPrice | currency:'S/.':'symbol':'1.2-2' }}
       </h3>
 
       <h3 class="text-xl font-semibold text-primary">
-        {{ discountedPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+        {{ discountedPrice | currency:'S/.':'symbol':'1.2-2' }}
       </h3>
     </div>
     } @else {
     <h3 class="text-xl font-semibold text-primary">
-      {{ bundleTotalPrice | currency:'USD':'symbol':'1.2-2':'en-US' }}
+      {{ bundleTotalPrice | currency:'S/.':'symbol':'1.2-2' }}
     </h3>
     }
 

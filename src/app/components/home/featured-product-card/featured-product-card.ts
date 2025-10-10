@@ -22,8 +22,11 @@ export class FeaturedProductCard {
   }
 
   goToProduct() {
-    this.router.navigate(['/product', this.product().id]);
-  }
+  const product = this.product();
+  sessionStorage.setItem('selectedProduct', JSON.stringify(product));
+  this.router.navigate(['/product/sell']);
+}
+
 
   get imageUrl(): string {
     return this.productService.getProductImageUrl(this.product().id);

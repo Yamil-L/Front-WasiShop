@@ -61,19 +61,28 @@ export class FeaturedProducts implements OnInit {
         .toPromise(); // Convertimos el Observable a una Promise
       console.log('✅ Productos cargados:', data);
       // 🔹 Mapeamos la respuesta de la API al ProductDto esperado
-      this.products = (data ?? []).map((p) => ({
+      this.products = (data ?? []).map((p) => {
+      // Normalizamos el nombre para usarlo en la ruta del archivo
+      const cleanName = p.descripcion
+        ?.toLowerCase()
+        .replace(/\s+/g, '-')        // espacios → guiones
+        .replace(/[^a-z0-9\-]/g, ''); // quitamos caracteres especiales
+
+      return {
         id: p._id,
         name: p.descripcion, // usamos descripcion como nombre
-        description: p.categoria, // categoría como "descripción"
+        description: p.categoria,
         price: p.precio,
-        discount_percent: 0, // no existe en API, dejamos en 0
+        discount_percent: 0,
         created_date: p.createdAt,
-        sku: p.contenedor ?? '', // contenedor como sku
-        unit: 'pcs', // fijo ya que API no trae unidad
+        sku: p.contenedor ?? '',
+        unit: 'pcs',
         bundle_id: '',
         brand_id: '',
-        image_path: '/images/default.jpg', // placeholder porque API no trae imágenes
-      }));
+        // 🔹 Aquí concatenamos el nombre limpio a la ruta base
+        image_path: `/img/${cleanName || 'default'}.jpeg`,
+      };
+    });
       this.cdr.markForCheck();
     } catch (err) {
       console.error('❌ Error cargando productos:', err);

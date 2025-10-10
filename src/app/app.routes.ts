@@ -18,9 +18,14 @@ import { Payment } from './components/profile/payment/payment';
 import { Allbundles } from './pages/allbundles/allbundles';
 import { Cart } from './pages/cart/cart';
 import { Categoria  } from './pages/categorias/categorias';
+import { Sell } from './components/product/sell/sell';
 
 
 export const routes: Routes = [
+  {
+  path: 'product/sell',
+  component: Sell
+},
   {
     path: '',
     component: Home,

@@ -1,94 +1,3 @@
-// import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
-// import { CurrencyPipe } from '@angular/common';
-// import {
-//   LucideAngularModule,
-//   LucideIconData,
-//   Plus,
-//   Minus,
-//   Heart,
-//   Share2,
-// } from 'lucide-angular';
-// import { Rating } from '../../common/rating/rating';
-// import { Comments } from '../../common/comments/comments';
-// import { ProductDto, ProductService } from '../../../services/product-service';
-
-// @Component({
-//   selector: 'app-sell',
-//   imports: [CurrencyPipe, LucideAngularModule, Rating, Comments],
-//   templateUrl: './sell.html',
-//   styleUrl: './sell.css',
-//   standalone: true,
-// })
-// export class Sell implements OnInit {
-//   private cdr = inject(ChangeDetectorRef);
-//   product!: ProductDto;
-//   productImageUrl: string = '';
-//   quantity: number = 1;
-
-//   plusIcon: LucideIconData = Plus;
-//   minusIcon: LucideIconData = Minus;
-//   heartIcon: LucideIconData = Heart;
-//   shareIcon: LucideIconData = Share2;
-
-//   constructor(
-//     private route: ActivatedRoute,
-//     private productService: ProductService
-//   ) {}
-
-//   ngOnInit(): void {
-//     const id = this.route.snapshot.paramMap.get('id');
-//     if (id) {
-//       this.productService.getProductById(id).subscribe({
-//         next: (product) => {
-//           this.product = product;
-//           this.productImageUrl = this.productService.getProductImageUrl(
-//             product.id
-//           );
-//           this.cdr.detectChanges();
-//         },
-//       });
-//     }
-//   }
-
-//   get discountedPrice(): number {
-//     if (!this.product) return 0;
-//     return (
-//       this.product.price -
-//       (this.product.price * (this.product.discount_percent ?? 0)) / 100
-//     );
-//   }
-
-//   decreaseQuantity() {
-//     this.quantity = Math.max(1, this.quantity - 1);
-//   }
-
-//   increaseQuantity() {
-//     this.quantity += 1;
-//   }
-
-//   addToCart() {
-//     if (!this.product?.id) return;
-
-//     const key = 'cart';
-//     const stored = localStorage.getItem(key);
-//     let cart: { id: string; quantity: number }[] = stored
-//       ? JSON.parse(stored)
-//       : [];
-
-//     const existing = cart.find((item) => item.id === this.product.id);
-
-//     if (existing) {
-//       existing.quantity += this.quantity;
-//     } else {
-//       cart.push({ id: this.product.id, quantity: this.quantity });
-//     }
-
-//     localStorage.setItem(key, JSON.stringify(cart));
-//   }
-// }
-
-
 import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import {
@@ -98,56 +7,73 @@ import {
   Minus,
   Heart,
   Share2,
+  SquareArrowOutUpRight,
 } from 'lucide-angular';
 import { Rating } from '../../common/rating/rating';
 import { Comments } from '../../common/comments/comments';
+import { Router } from '@angular/router';
 
 interface Product {
   id: string;
   name: string;
-  unit: string;
+  description?: string;
+  unit?: string;
   price: number;
-  discount_percent: number;
-  image_path: string;
-  averageRate: number;
+  discount_percent?: number;
+  image_path?: string;
+  averageRate?: number;
 }
+import { Header } from '../../../components/common/header/header';
+import { Footer } from '../../../components/common/footer/footer';
+
 
 @Component({
   selector: 'app-sell',
   standalone: true,
-  imports: [CurrencyPipe, NgClass, LucideAngularModule, Rating, Comments],
+  imports: [Header, Footer, CurrencyPipe, NgClass, LucideAngularModule, Rating, Comments],
   templateUrl: './sell.html',
-  styleUrls: ['./sell.css'],
+  styleUrl: './sell.css',
 })
 export class Sell implements OnInit {
-  product!: Product;
-  productImageUrl: string = '';
-  quantity: number = 1;
+  product: Product | null = null;
+  quantity = 1;
+  isFavorite = false;
 
   plusIcon: LucideIconData = Plus;
   minusIcon: LucideIconData = Minus;
   heartIcon: LucideIconData = Heart;
   shareIcon: LucideIconData = Share2;
+  linkIcon: LucideIconData = SquareArrowOutUpRight;
 
-  isFavorite = false;
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    // Producto estático
-    this.product = {
-      id: 'p1',
-      name: 'Auriculares Inalámbricos Premium',
-      unit: 'unidad',
-      price: 79.99,
-      discount_percent: 15,
-      image_path: '/images/auriculares.jpg',
-      averageRate: 4,
-    };
+  ngOnInit() {
+    const navigation = this.router.getCurrentNavigation();
+    this.product = navigation?.extras?.state?.['product'];
 
-    this.productImageUrl = this.product.image_path;
-  }
+    if (!this.product) {
+      const saved = sessionStorage.getItem('selectedProduct');
+      if (saved) {
+        this.product = JSON.parse(saved);
+        console.log('🟢 Producto recuperado del sessionStorage:', this.product);
+      } else {
+        console.warn('⚠️ No se recibió producto.');
+      }
+    }
 
-  get discountedPrice(): number {
-    return this.product.price - (this.product.price * this.product.discount_percent) / 100;
+    // Aplicar valores por defecto
+    if (this.product) {
+      this.product = {
+        id: this.product.id,
+        name: this.product.name || 'Producto sin nombre',
+        description: this.product.description || 'Sin descripción disponible.',
+        unit: this.product.unit || 'unidad',
+        price: this.product.price || 0,
+        discount_percent: this.product.discount_percent ?? 0,
+        image_path: this.product.image_path || 'assets/images/default.jpg',
+        averageRate: this.product.averageRate ?? 4,
+      };
+    }
   }
 
   decreaseQuantity() {
@@ -162,19 +88,46 @@ export class Sell implements OnInit {
     this.isFavorite = !this.isFavorite;
   }
 
-  addToCart() {
-    const key = 'cart';
-    const stored = localStorage.getItem(key);
-    let cart: { id: string; quantity: number }[] = stored ? JSON.parse(stored) : [];
-
-    const existing = cart.find((item) => item.id === this.product.id);
-    if (existing) {
-      existing.quantity += this.quantity;
-    } else {
-      cart.push({ id: this.product.id, quantity: this.quantity });
-    }
-
-    localStorage.setItem(key, JSON.stringify(cart));
-    alert('Producto agregado al carrito');
+  
+  
+  get discountedPrice(): number {
+    if (!this.product) return 0;
+    const discount = this.product.discount_percent || 0;
+    return this.product.price - (this.product.price * discount) / 100;
   }
+
+  addToCart() {
+  if (!this.product) return;
+
+  // Leer carrito actual (si existe)
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  // Verificar si el producto ya está en el carrito
+  const existingItem = cart.find((item: any) => item.id === this.product!.id);
+
+  if (existingItem) {
+    existingItem.quantity += this.quantity;
+  } else {
+    // Agregar producto completo al carrito
+    cart.push({
+      id: this.product.id,
+      name: this.product.name,
+      description: this.product.description,
+      price: this.product.price,
+      discount_percent: this.product.discount_percent,
+      image_path: this.product.image_path,
+      quantity: this.quantity,
+    });
+  }
+
+  // Guardar en localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  console.log('🛒 Carrito actualizado:', cart);
+
+  // Feedback visual
+  alert(`✅ ${this.product.name} agregado al carrito (${this.quantity})`);
 }
+
+}
+
+
